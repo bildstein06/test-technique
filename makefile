@@ -4,7 +4,7 @@ COMPOSE = docker compose
 all: start
 
 .PHONY: start
-start: up install-deps setup-db
+start: up wait-for-db install-deps setup-db
 	@echo "================================="
 	@echo "  Projet démarré et configuré !  "
 	@echo "================================="
@@ -58,7 +58,7 @@ install-frontend: up
 .PHONY: migrate
 migrate:
 	@echo "Lancement des migrations de la base de données..."
-	$(COMPOSE) exec -T laravel.test php artisan migrate
+	$(COMPOSE) exec -T laravel.test php artisan migrate:fresh
 
 .PHONY: seed
 seed:
