@@ -50,7 +50,7 @@ services:
             timeout: 5s
     frontend:
         build:
-            context: ./hotels-frontend 
+            context: ./hotels-frontend
             dockerfile: Dockerfile
         ports:
             - "3000:3000"
@@ -59,15 +59,15 @@ services:
             - /app/node_modules
         environment:
             - NODE_ENV=development
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        ports:
-            - "8081:80"
-        environment:
-            PMA_HOST: mysql
-            PMA_PORT: 3306
-        networks:
-            - sail
+#    phpmyadmin:
+#        image: phpmyadmin/phpmyadmin
+#        ports:
+#            - "8081:80"
+#        environment:
+#            PMA_HOST: mysql
+#            PMA_PORT: 3306
+#        networks:
+#            - sail
 networks:
     sail:
         driver: bridge
