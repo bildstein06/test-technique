@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Storage;
 
 class HotelRepository implements HotelRepositoryInterface
 {
-    /**
-     * @var array Colonnes autorisées pour le tri.
-     */
     protected $allowedSorts = [
         'name',
         'city',
@@ -26,7 +23,6 @@ class HotelRepository implements HotelRepositoryInterface
     {
         $query = Hotel::query()->with('pictures');
 
-        // --- Filtre (q=) ---
         if ($request->has('q')) {
             $query->where(function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->q . '%')
@@ -34,25 +30,17 @@ class HotelRepository implements HotelRepositoryInterface
             });
         }
 
-        // --- Tri (sort= & order=) (CORRIGÉ) ---
-
-        // Récupère la colonne de tri demandée, 'name' par défaut
         $sortColumn = $request->get('sort', 'name');
 
         // Récupère l'ordre (asc ou desc), 'asc' par défaut
         $sortOrder = $request->get('order', 'asc');
 
-        // Validation de sécurité :
-        // 1. La colonne est-elle dans notre liste autorisée ?
-        // 2. L'ordre est-il bien 'asc' ou 'desc' ?
         if (in_array($sortColumn, $this->allowedSorts) && in_array(strtolower($sortOrder), ['asc', 'desc'])) {
             $query->orderBy($sortColumn, $sortOrder);
         } else {
-            // Si le tri demandé n'est pas valide, on applique le tri par défaut
             $query->orderBy('name', 'asc');
         }
 
-        // --- Pagination (per_page=) ---
         return $query->paginate($request->get('per_page', 5));
     }
 

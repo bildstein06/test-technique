@@ -35,6 +35,13 @@ build:
 	@echo "Construction des images Docker..."
 	$(COMPOSE) build
 
+# Nouvelle cible pour l'attente
+.PHONY: wait-for-db
+wait-for-db:
+	@echo "Attente de 10 secondes pour le démarrage de MySQL..."
+	sleep 10
+	@echo "Reprise des opérations."
+
 .PHONY: install-laravel
 install-laravel: up
 	@echo "Vérification des dépendances Laravel (composer)..."
@@ -77,19 +84,3 @@ storage-link:
 .PHONY: logs
 logs:
 	$(COMPOSE) logs -f
-
-.PHONY: build-clean
-build-clean:
-	@echo "Construction des images Docker (sans cache)..."
-	$(COMPOSE) build --no-cache
-
-.PHONY: reinstall-deps
-reinstall-deps:
-	@echo "Forçage de l'installation des dépendances Laravel (composer)..."
-	$(COMPOSE) exec -T laravel.test composer install --no-interaction --no-progress
-	@echo "Forçage de l'installation des dépendances Frontend (npm)..."
-	$(COMPOSE) exec -T frontend npm install
-
-.PHONY: restart
-restart: down build up install-deps setup-db
-	@echo "Redémarrage complet terminé."

@@ -12,7 +12,6 @@ class HotelPicture extends Model
         'hotel_id', 'filepath', 'filesize', 'position',
     ];
 
-    // Ajouter la relation inverse
     public function hotel(): BelongsTo
     {
         return $this->belongsTo(Hotel::class);

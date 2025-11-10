@@ -28,7 +28,6 @@ class Hotel extends Model
         $firstPicture = $this->pictures->first();
 
         if ($firstPicture) {
-            // Le chemin 'filepath' est lu de la DB (ex: pictures/UUID.jpg)
             return Storage::disk('public')->url($firstPicture->filepath);
         }
 
