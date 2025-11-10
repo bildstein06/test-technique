@@ -20,6 +20,11 @@
     make
     ```
 
+3.  Pour arreter le conteneur docker :
+    ```bash
+    make down
+    ```
+
 ## 💻 Accès à l'application
 
 Une fois l'application installée et lancée:
