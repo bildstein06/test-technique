@@ -58,7 +58,7 @@ install-frontend: up
 .PHONY: migrate
 migrate:
 	@echo "Lancement des migrations de la base de données..."
-	$(COMPOSE) exec -T laravel.test php artisan migrate
+	$(COMPOSE) exec -T laravel.test php artisan migrate:fresh
 
 .PHONY: seed
 seed:
